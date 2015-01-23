@@ -101,6 +101,7 @@ import copy, sys, pprint
 ############################################################
 # States and goals
 
+
 class State():
     """A state is just a collection of variable bindings."""
 
