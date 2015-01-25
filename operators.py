@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 from configuration import Configuration
 
 __author__ = 'Michał Ciołczyk'
