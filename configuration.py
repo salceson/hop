@@ -37,3 +37,9 @@ class Configuration(object):
     @staticmethod
     def bus_frequency_per_hour():
         return 6
+
+    # States
+
+    @staticmethod
+    def initialize_state():
+        pass
