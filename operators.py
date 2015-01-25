@@ -4,10 +4,6 @@ from configuration import Configuration
 __author__ = 'Michał Ciołczyk'
 
 
-def taxi_fare(dist):
-    return 20 + 1.5 * dist
-
-
 def walk(state, who, from_place, to_place):
     if state.location[who] == from_place:
         state.location = to_place
@@ -15,6 +11,12 @@ def walk(state, who, from_place, to_place):
         return state
     else:
         return False
+
+# Taxi
+
+
+def taxi_fare(dist):
+    return 20 + 1.5 * dist
 
 
 def call_taxi(state, _, from_place):
@@ -30,6 +32,8 @@ def drive_taxi(state, _, from_place, to_place):
     state.location['me'] = to_place
     state.time -= Configuration.distance(from_place, to_place) / Configuration.taxi_velocity() * 60
     return state
+
+# Bus
 
 
 def get_into_bus(state, _, from_place):

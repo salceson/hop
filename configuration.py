@@ -18,10 +18,24 @@ class Configuration(object):
         return {
             'park': {
                 'home': 80,
+                'intersection1': 20,
             },
             'home': {
                 'park': 80,
+                'intersection3': 5,
             },
+            'intersection1': {
+                'park': 20,
+                'intersection2': 15,
+            },
+            'intersection2': {
+                'intersection1': 15,
+                'intersection3': 10,
+            },
+            'intersection3': {
+                'intersection2': 10,
+                'home': 5
+            }
         }
 
     @staticmethod
@@ -31,7 +45,7 @@ class Configuration(object):
     # Buses
     @staticmethod
     def can_get_to_bus(from_place):
-        bus_locations = ['park', 'intersection', 'school']
+        bus_locations = ['park', 'intersection1', 'intersection2', 'intersection3']
         return bus_locations.__contains__(from_place)
 
     @staticmethod
