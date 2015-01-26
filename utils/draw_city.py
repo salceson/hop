@@ -4,7 +4,7 @@
 __author__ = 'Michał Ciołczyk'
 
 from configuration import Configuration
-from matplotlib.pyplot import plot, savefig
+from matplotlib.pyplot import savefig
 import networkx as nx
 
 output_filename = '../map.png'
