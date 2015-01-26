@@ -6,11 +6,15 @@ class Configuration(object):
     # Velocities
     @staticmethod
     def walking_velocity():
-        return 0.1
+        return 5
 
     @staticmethod
     def taxi_velocity():
-        return 2
+        return 20
+
+    @staticmethod
+    def bus_velocity():
+        return 15
 
     # Distances
     @staticmethod
