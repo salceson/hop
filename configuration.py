@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from pyhop import pyhop
+
 __author__ = 'Michał Ciołczyk'
 
 
@@ -70,4 +72,13 @@ class Configuration(object):
 
     @staticmethod
     def initialize_state():
-        pass
+        state = pyhop.State('My state')
+        state.cash = dict()
+        state.cash['me'] = 500  # in dollars
+        state.time = dict()
+        state.time['me'] = 500  # in minutes
+        state.owe = dict()
+        state.owe['me'] = 0
+        state.location = dict()
+        state.location['me'] = 'park'
+        return state

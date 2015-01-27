@@ -13,4 +13,4 @@ initialize_methods()
 state = Configuration.initialize_state()
 
 # Execute pyhop
-pyhop(state, None, 3)
+pyhop(state, [('travel', 'me', 'park', 'home')], 3)
