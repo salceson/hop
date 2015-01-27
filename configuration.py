@@ -56,6 +56,16 @@ class Configuration(object):
     def bus_frequency_per_hour():
         return 6
 
+    @staticmethod
+    def bus_fare(from_place, to_place):
+        return 1 + 0.1 * Configuration.distance(from_place, to_place)
+
+    # Taxi
+
+    @staticmethod
+    def taxi_fare(from_place, to_place):
+        return 20 + 1.5 * Configuration.distance(from_place, to_place)
+
     # States
 
     @staticmethod

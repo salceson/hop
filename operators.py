@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 from configuration import Configuration
+from pyhop import pyhop
 
 __author__ = 'Michał Ciołczyk'
 
+
+## OPERATORS
+
+# Walk
 
 def walk(state, who, from_place, to_place):
     if state.location[who] == from_place:
@@ -12,12 +17,8 @@ def walk(state, who, from_place, to_place):
     else:
         return False
 
+
 # Taxi
-
-
-def taxi_fare(dist):
-    return 20 + 1.5 * dist
-
 
 def call_taxi(state, _, from_place):
     state.location['taxi'] = from_place
@@ -25,16 +26,26 @@ def call_taxi(state, _, from_place):
     return state
 
 
-def drive_taxi(state, _, from_place, to_place):
+def ride_taxi(state, a, from_place, to_place):
     if from_place != state.location['taxi']:
         return False
     state.location['taxi'] = to_place
     state.location['me'] = to_place
+    state.owe[a] = Configuration.taxi_fare(from_place, to_place)
     state.time -= Configuration.distance(from_place, to_place) / Configuration.taxi_velocity() * 60
     return state
 
-# Bus
 
+def pay_driver(state, a):
+    if state.cash[a] >= state.owe[a]:
+        state.cash[a] = state.cash[a] - state.owe[a]
+        state.owe[a] = 0
+        return state
+    else:
+        return False
+
+
+# Bus
 
 def get_into_bus(state, _, from_place):
     if Configuration.can_get_to_bus(from_place):
@@ -46,15 +57,56 @@ def get_into_bus(state, _, from_place):
     return state
 
 
-def drive_bus(state, _, from_place):
+def ride_bus(state, a, from_place, to_place):
+    if from_place != state.location['bus']:
+        return False
+    state.location['bus'] = to_place
+    state.location['me'] = to_place
+    state.owe[a] = Configuration.bus_fare(from_place, to_place)
+    state.time -= Configuration.distance(from_place, to_place) / Configuration.bus_velocity() * 60
+    return state
+
+
+def pay_for_bus(state, a):
+    if state.cash[a] >= state.owe[a]:
+        state.cash[a] = state.cash[a] - state.owe[a]
+        state.owe[a] = 0
+        return state
+    else:
+        return False
+
+
+## METHODS
+
+def travel_on_foot(state, a, from_place, to_place):
+    if Configuration.distance(from_place, to_place) <= 2:
+        return [('walk', a, from_place, to_place)]
+    return False
+
+
+def travel_by_taxi(state, a, from_place, to_place):
+    if state.cash[a] >= Configuration.taxi_fare(from_place, to_place):
+        return [('call_taxi', a, from_place), ('ride_taxi', a, from_place, to_place), ('pay_driver', a)]
+    return False
+
+
+def travel_by_bus(state, a, from_place, to_place):
+    if state.cash[a] >= Configuration.bus_fare(from_place, to_place):
+        return [('get_into_bus', a, from_place), ('ride_bus', a, from_place, to_place), ('pay_for_bus', a)]
+    return False
+
+
+## INITIALIZATION
+
+def initialize_operators(to_print=False):
+    pyhop.declare_operators([walk, call_taxi, ride_taxi, pay_driver, get_into_bus, ride_bus, pay_for_bus])
+    if to_print:
+        pyhop.print_operators()
     pass
 
 
-# Initialization
-
-def initialize_methods():
-    pass
-
-
-def initialize_operators():
+def initialize_methods(to_print=False):
+    pyhop.declare_methods('travel', [travel_on_foot, travel_by_taxi, travel_by_bus])
+    if to_print:
+        pyhop.print_methods()
     pass
