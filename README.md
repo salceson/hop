@@ -62,8 +62,48 @@ I defined the following operators and methods:
 There is one defined operator for walking:
 
 ```python
-def walk(state, who, from_place, to_place):
+def walk(state, who, from_place, to_place)
 ```
+
+It defines changing place from `from_place` to `to_place`.
+
+It also measures how much time does the walking require.
+
+#### Methods
+
+There is one defined method for walking:
+
+```python
+def travel_on_foot(_, a, from_place, to_place)
+```
+
+It performs the walking from `from_place` to `to_place`.
+
+### Travelling by taxi
+
+#### Operators
+
+There are 3 operators for travelling by taxi:
+
+* Calling the cab
+
+```python
+def call_taxi(state, a, from_place)
+```
+
+* Riding a taxi
+
+```python
+def call_taxi(state, a, from_place)
+```
+
+* Paying the driver
+
+```python
+def call_taxi(state, a, from_place)
+```
+
+#### Methods
 
 
 ## Examples
