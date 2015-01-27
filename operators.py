@@ -12,7 +12,10 @@ __author__ = 'Michał Ciołczyk'
 def walk(state, who, from_place, to_place):
     if state.location[who] == from_place:
         state.location = to_place
-        state.time -= Configuration.distance(from_place, to_place) / Configuration.walking_velocity() * 60
+        time_required = Configuration.distance(from_place, to_place) / Configuration.walking_velocity() * 60
+        if time_required > state.time[who]:
+            return False
+        state.time[who] -= time_required
         return state
     else:
         return False
@@ -22,6 +25,8 @@ def walk(state, who, from_place, to_place):
 
 def call_taxi(state, a, from_place):
     state.location['taxi'] = from_place
+    if state.time[a] < 10:
+        return False
     state.time[a] -= 10
     return state
 
@@ -32,7 +37,10 @@ def ride_taxi(state, a, from_place, to_place):
     state.location['taxi'] = to_place
     state.location['me'] = to_place
     state.owe[a] = Configuration.taxi_fare(from_place, to_place)
-    state.time[a] -= Configuration.distance(from_place, to_place) / Configuration.taxi_velocity() * 60
+    time_required = Configuration.distance(from_place, to_place) / Configuration.taxi_velocity() * 60
+    if time_required > state.time[a]:
+            return False
+    state.time[a] -= time_required
     return state
 
 
@@ -47,13 +55,18 @@ def pay_driver(state, a):
 
 # Bus
 
-def get_into_bus(state, a, from_place):
-    if Configuration.can_get_to_bus(from_place):
+def get_into_bus(state, a, from_place, to_place):
+    if not Configuration.can_get_to_bus(from_place):
+        return False
+    if not Configuration.can_get_to_bus(to_place):
         return False
     state.location['bus'] = from_place
     bus_dt = int(60.0 / Configuration.bus_frequency_per_hour())
     if state.time[a] % bus_dt > 0:
-        state.time[a] -= bus_dt - state.time % bus_dt
+        time_required = bus_dt - state.time % bus_dt
+        if time_required > state.time[a]:
+            return False
+        state.time[a] -= time_required
     return state
 
 
@@ -63,7 +76,10 @@ def ride_bus(state, a, from_place, to_place):
     state.location['bus'] = to_place
     state.location['me'] = to_place
     state.owe[a] = Configuration.bus_fare(from_place, to_place)
-    state.time[a] -= Configuration.distance(from_place, to_place) / Configuration.bus_velocity() * 60
+    time_required = Configuration.distance(from_place, to_place) / Configuration.bus_velocity() * 60
+    if time_required > state.time[a]:
+            return False
+    state.time[a] -= time_required
     return state
 
 
@@ -92,7 +108,7 @@ def travel_by_taxi(state, a, from_place, to_place):
 
 def travel_by_bus(state, a, from_place, to_place):
     if state.cash[a] >= Configuration.bus_fare(from_place, to_place):
-        return [('get_into_bus', a, from_place), ('ride_bus', a, from_place, to_place), ('pay_for_bus', a)]
+        return [('get_into_bus', a, from_place, to_place), ('ride_bus', a, from_place, to_place), ('pay_for_bus', a)]
     return False
 
 

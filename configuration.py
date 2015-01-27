@@ -51,8 +51,11 @@ class Configuration(object):
     # Buses
     @staticmethod
     def can_get_to_bus(from_place):
-        bus_locations = ['park', 'intersection1', 'intersection2', 'intersection3']
-        return bus_locations.__contains__(from_place)
+        bus_locations = {'park': True,
+                         'intersection1': True,
+                         'intersection2': True,
+                         'intersection3': True}
+        return bus_locations.get(from_place, False)
 
     @staticmethod
     def bus_frequency_per_hour():
@@ -73,12 +76,8 @@ class Configuration(object):
     @staticmethod
     def initialize_state():
         state = pyhop.State('My state')
-        state.cash = dict()
-        state.cash['me'] = 500  # in dollars
-        state.time = dict()
-        state.time['me'] = 500  # in minutes
-        state.owe = dict()
-        state.owe['me'] = 0
-        state.location = dict()
-        state.location['me'] = 'park'
+        state.cash = {'me': 130}  # in dollars
+        state.time = {'me': 500}  # in minutes
+        state.owe = {'me': 0}
+        state.location = {'me': 'park'}
         return state
