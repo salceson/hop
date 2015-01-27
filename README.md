@@ -41,7 +41,7 @@ You are able to board/unboard buses at following points:
 
 The bus goes at 15 km/h.
 
-The price for the bus is $5 for any segment.
+The price for the bus is $(1 + 0.1 * distance).
 
 You need to wait for bus if it goes away.
 
