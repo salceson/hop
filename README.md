@@ -51,6 +51,20 @@ You are also able to walk on foot.
 
 Walking on foot is at 5 km/h.
 
-## Operators
+## Operators and methods
 
-Some description will follow here.
+I defined the following operators and methods:
+
+### Going on foot
+
+#### Operators
+
+There is one defined operator for walking:
+
+```python
+def walk(state, who, from_place, to_place):
+```
+
+
+## Examples
+
