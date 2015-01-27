@@ -21,7 +21,9 @@ I used the following map:
 
 Distances are measured in km.
 
-### Taxi
+### Means of transportation
+
+#### Taxi
 
 You are able to board a taxi in any place.
 
@@ -29,7 +31,7 @@ The price for the taxi is $(20 + 1.5 * distance).
  
 The taxi goes at 20 km/h.
 
-### Buses
+#### Buses
 
 There are buses leaving every 10 minutes (6 per hour), starting from hh:00 (for hh in {00, 01, ..., 23}).
 You are able to board/unboard buses at following points:
@@ -45,7 +47,7 @@ The price for the bus is $(1 + 0.1 * distance).
 
 You need to wait for bus if it goes away.
 
-### Walking (on foot)
+#### Walking (on foot)
 
 You are also able to walk on foot.
 
@@ -77,7 +79,7 @@ There is one defined method for walking:
 def travel_on_foot(_, a, from_place, to_place)
 ```
 
-It performs the walking from `from_place` to `to_place`.
+It performs walking from `from_place` to `to_place`.
 
 ### Travelling by taxi
 
@@ -91,20 +93,122 @@ There are 3 operators for travelling by taxi:
 def call_taxi(state, a, from_place)
 ```
 
+It performs calling the taxi (which takes 10 minutes).
+
 * Riding a taxi
 
 ```python
-def call_taxi(state, a, from_place)
+def ride_taxi(state, a, from_place, to_place)
 ```
+
+It performs changing location from `from_place` to `to_place`.
+
+It also measures the time that passes during the ride.
 
 * Paying the driver
 
 ```python
-def call_taxi(state, a, from_place)
+def pay_driver(state, a)
 ```
+
+It performs paying the taxi fare to driver.
 
 #### Methods
 
+There is one defined method for travelling by taxi:
 
-## Examples
+```python
+def travel_by_taxi(state, a, from_place, to_place)
+```
 
+It performs travelling by taxi from `from_place` to `to_place`.
+
+### Travelling by bus
+
+#### Operators
+
+There are 3 operators for travelling by taxi:
+
+* Calling the cab
+
+```python
+def call_taxi(state, a, from_place)
+```
+
+It performs calling the taxi (which takes 10 minutes).
+
+* Riding a taxi
+
+```python
+def ride_taxi(state, a, from_place, to_place)
+```
+
+It performs changing location from `from_place` to `to_place`.
+
+It also measures the time that passes during the ride.
+
+* Paying the driver
+
+```python
+def pay_driver(state, a)
+```
+
+It performs paying the taxi fare to driver.
+
+#### Methods
+
+There is one defined method for travelling by bus:
+
+```python
+def travel_by_bus(state, a, from_place, to_place)
+```
+
+It performs travelling by bus from `from_place` to `to_place`.
+
+## Example plans
+
+### Indirect path (via intersections) - $8, 180 min
+
+We assume that we're travelling from park to home and we have
+$8 money and 180 min to get into destination.
+
+The derived plan:
+
+```python
+troll
+```
+
+### Indirect path (via intersections) - $50, 100 min
+
+We assume that we're travelling from park to home and we have
+$50 money and 100 min to get into destination.
+
+The derived plan:
+
+```python
+troll
+```
+
+### Direct path - $140, 100 min
+
+We assume that we're travelling from park to home and we have
+$140 money and 100 min to get into destination.
+
+The derived plan:
+
+```python
+troll
+```
+
+### Direct path - $50, 100 min
+
+We assume that we're travelling from park to home and we have
+$140 money and 100 min to get into destination.
+
+The derived plan:
+
+```python
+False
+```
+
+(There is no possible plan for this configuration).
