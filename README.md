@@ -127,33 +127,33 @@ It performs travelling by taxi from `from_place` to `to_place`.
 
 #### Operators
 
-There are 3 operators for travelling by taxi:
+There are 3 operators for travelling by bus:
 
-* Calling the cab
+* Getting into bus
 
 ```python
-def call_taxi(state, a, from_place)
+def get_into_bus(state, a, from_place, to_place)
 ```
 
-It performs calling the taxi (which takes 10 minutes).
+It performs getting into bus (which time varies due to the bus schedule and current time).
 
-* Riding a taxi
+* Riding a bus
 
 ```python
-def ride_taxi(state, a, from_place, to_place)
+def ride_bus(state, a, from_place, to_place)
 ```
 
 It performs changing location from `from_place` to `to_place`.
 
 It also measures the time that passes during the ride.
 
-* Paying the driver
+* Paying for the ticket
 
 ```python
-def pay_driver(state, a)
+def pay_for_bus(state, a)
 ```
 
-It performs paying the taxi fare to driver.
+It performs paying the bus fare.
 
 #### Methods
 
@@ -175,35 +175,57 @@ $8 money and 180 min to get into destination.
 The derived plan:
 
 ```python
-troll
+result = [('get_into_bus', 'me', 'park', 'intersection1'),
+          ('ride_bus', 'me', 'park', 'intersection1'),
+          ('pay_for_bus', 'me'),
+          ('get_into_bus', 'me', 'intersection1', 'intersection2'),
+          ('ride_bus', 'me', 'intersection1', 'intersection2'),
+          ('pay_for_bus', 'me'),
+          ('get_into_bus', 'me', 'intersection2', 'intersection3'),
+          ('ride_bus', 'me', 'intersection2', 'intersection3'),
+          ('pay_for_bus', 'me'),
+          ('walk', 'me', 'intersection3', 'home')] 
 ```
 
-### Indirect path (via intersections) - $50, 100 min
+### Indirect path (via intersections) - $80, 100 min
 
 We assume that we're travelling from park to home and we have
-$50 money and 100 min to get into destination.
+$80 money and 100 min to get into destination.
 
 The derived plan:
 
 ```python
-troll
+result = [('get_into_bus', 'me', 'park', 'intersection1'),
+          ('ride_bus', 'me', 'park', 'intersection1'),
+          ('pay_for_bus', 'me'),
+          ('call_taxi', 'me', 'intersection1'),
+          ('ride_taxi', 'me', 'intersection1', 'intersection2'),
+          ('pay_driver', 'me'),
+          ('get_into_bus', 'me', 'intersection2', 'intersection3'),
+          ('ride_bus', 'me', 'intersection2', 'intersection3'),
+          ('pay_for_bus', 'me'),
+          ('call_taxi', 'me', 'intersection3'),
+          ('ride_taxi', 'me', 'intersection3', 'home'),
+          ('pay_driver', 'me')] 
 ```
 
-### Direct path - $140, 100 min
+### Direct path - $140, 250 min
 
 We assume that we're travelling from park to home and we have
-$140 money and 100 min to get into destination.
+$140 money and 250 min to get into destination.
 
 The derived plan:
 
 ```python
-troll
+result = [('call_taxi', 'me', 'park'),
+          ('ride_taxi', 'me', 'park', 'home'),
+          ('pay_driver', 'me')] 
 ```
 
 ### Direct path - $50, 100 min
 
 We assume that we're travelling from park to home and we have
-$140 money and 100 min to get into destination.
+$50 money and 100 min to get into destination.
 
 The derived plan:
 
