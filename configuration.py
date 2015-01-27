@@ -71,13 +71,19 @@ class Configuration(object):
     def taxi_fare(from_place, to_place):
         return 20 + 1.5 * Configuration.distance(from_place, to_place)
 
+    # Foot
+
+    @staticmethod
+    def max_distance_on_foot():
+        return 10
+
     # States
 
     @staticmethod
     def initialize_state():
         state = pyhop.State('My state')
-        state.cash = {'me': 130}  # in dollars
-        state.time = {'me': 500}  # in minutes
+        state.cash = {'me': 50}  # in dollars
+        state.time = {'me': 130}  # in minutes
         state.owe = {'me': 0}
         state.location = {'me': 'park'}
         return state

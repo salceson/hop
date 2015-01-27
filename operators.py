@@ -11,7 +11,7 @@ __author__ = 'Michał Ciołczyk'
 
 def walk(state, who, from_place, to_place):
     if state.location[who] == from_place:
-        state.location = to_place
+        state.location[who] = to_place
         time_required = Configuration.distance(from_place, to_place) / Configuration.walking_velocity() * 60
         if time_required > state.time[who]:
             return False
@@ -94,8 +94,8 @@ def pay_for_bus(state, a):
 
 ## METHODS
 
-def travel_on_foot(state, a, from_place, to_place):
-    if Configuration.distance(from_place, to_place) <= 2:
+def travel_on_foot(_, a, from_place, to_place):
+    if Configuration.distance(from_place, to_place) <= Configuration.max_distance_on_foot():
         return [('walk', a, from_place, to_place)]
     return False
 
