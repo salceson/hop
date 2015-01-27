@@ -82,8 +82,8 @@ class Configuration(object):
     @staticmethod
     def initialize_state():
         state = pyhop.State('My state')
-        state.cash = {'me': 50}  # in dollars
-        state.time = {'me': 130}  # in minutes
+        state.cash = {'me': 8}  # in dollars
+        state.time = {'me': 180}  # in minutes
         state.owe = {'me': 0}
         state.location = {'me': 'park'}
         return state
