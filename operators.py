@@ -99,14 +99,14 @@ def travel_by_bus(state, a, from_place, to_place):
 ## INITIALIZATION
 
 def initialize_operators(to_print=False):
-    pyhop.declare_operators([walk, call_taxi, ride_taxi, pay_driver, get_into_bus, ride_bus, pay_for_bus])
+    pyhop.declare_operators(walk, call_taxi, ride_taxi, pay_driver, get_into_bus, ride_bus, pay_for_bus)
     if to_print:
         pyhop.print_operators()
     pass
 
 
 def initialize_methods(to_print=False):
-    pyhop.declare_methods('travel', [travel_on_foot, travel_by_taxi, travel_by_bus])
+    pyhop.declare_methods('travel', travel_on_foot, travel_by_taxi, travel_by_bus)
     if to_print:
         pyhop.print_methods()
     pass
