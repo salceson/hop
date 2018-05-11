@@ -63,7 +63,7 @@ def get_into_bus(state, a, from_place, to_place):
     state.location['bus'] = from_place
     bus_dt = int(60.0 / Configuration.bus_frequency_per_hour())
     if state.time[a] % bus_dt > 0:
-        time_required = bus_dt - state.time % bus_dt
+        time_required = bus_dt - state.time[a] % bus_dt
         if time_required > state.time[a]:
             return False
         state.time[a] -= time_required
